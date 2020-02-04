@@ -1,19 +1,8 @@
-a[href^="#error:"] {
-	background: red;
-	color: white;
-}
-
-form .required label {
-	font-weight: bold;
-}
-
-
-/* Homepage - for the future better separate component and include it for each appropriate component */
 nav{
 	background: black;
 }
 
-/* Homepage */
+/* Homepage - for the future better separate component and include it for each appropriate component */
 .homepage-welcome-heading{
 	text-transform: uppercase;
 	color: black;
@@ -35,6 +24,10 @@ nav{
 }
 
 /* Reset - for the future better separate component and include it for each appopriate component  */
+form .required label {
+	font-weight: bold;
+}
+
 .reset-reset-heading{
 	text-transform: uppercase;
 	color: black;
