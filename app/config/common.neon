@@ -24,4 +24,6 @@ database:
 
 services:
 	- App\Model\Reset
+	- App\Factory\ResetPasswordControlFactory
+	- App\Forms\ResetForm
 	router: App\Router\RouterFactory::createRouter

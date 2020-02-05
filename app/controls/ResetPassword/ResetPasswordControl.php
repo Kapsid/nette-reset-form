@@ -1,5 +1,6 @@
 <?php
 
+use App\Forms\ResetForm;
 use App\Model\Reset;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -12,14 +13,14 @@ class ResetPasswordControl extends Control {
     public $reset;
 
     /**
-     * @var bool $resetDone
+     * @var ResetForm $resetForm
      */
-    protected $resetDone;
+    public $resetForm;
 
-    // For future usage
-    public function __construct(Reset $reset) {
+
+    public function __construct(Reset $reset, ResetForm $resetForm) {
         $this->reset = $reset;
-        $this->resetDone = false;
+        $this->resetForm = $resetForm;
     }
 
     /**
@@ -29,7 +30,6 @@ class ResetPasswordControl extends Control {
     public function render() : void {
 
         $this->template->setFile(__DIR__.'/ResetPasswordControl.latte');
-        $this->template->resetDone = $this->resetDone;
         $this->template->render();
     }
 
@@ -39,17 +39,7 @@ class ResetPasswordControl extends Control {
      */
     protected function createComponentResetForm(): Form
     {
-        $form = new Form;
-
-        // Using ajax
-        $form->getElementPrototype()->class('ajax');
-        $form->addText('email', 'E-mail:')
-            ->addRule($form::EMAIL, 'Invalid email')
-            ->setRequired('You must fill e-mail');
-        $form->addPassword('password', 'Password:')
-            ->addRule(Form::MIN_LENGTH, 'Password needs to have at least six chracters.',6)
-            ->setRequired('You must fill password');
-        $form->addSubmit('login', 'Reset');
+        $form = $this->resetForm->create();
         $form->onSuccess[] = [$this, 'resetFormSucceeded'];
         return $form;
     }
@@ -57,20 +47,20 @@ class ResetPasswordControl extends Control {
     /**
      * Success handler
      * @param Form $form
-     * @param stdClass $values
+     * @param \stdClass $values
+     * @throws \Nette\Application\AbortException
      */
     public function resetFormSucceeded(Form $form, \stdClass $values): void
     {
-
-        $this->flashMessage('Your password was resetted.');
-
         try{
             $this->reset->saveNewPassword($values);
-            $this->resetDone = true;
-            $this->redrawControl('resetForm');
         } catch (Exception $error) {
             // Some BE error
         }
+
+       $this->presenter->flashMessage('Your password was resetted.');
+       $this->presenter->redirect('this');
     }
+
 
 }

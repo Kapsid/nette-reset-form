@@ -3,14 +3,22 @@
 declare(strict_types=1);
 
 namespace App\Presenters;
-use App\Model\Reset;
+use App\Factory\ResetPasswordControlFactory;
 use Nette\Application\UI\Control;
-use ResetPasswordControl;
 
 final class ResetPasswordPresenter extends BasePresenter
 {
-    /** @var Reset @inject */
-    public $reset;
+
+    /**
+     * @var ResetPasswordControlFactory
+     */
+    private $resetPasswordControlFactory;
+
+    public function __construct(ResetPasswordControlFactory $resetPasswordControlFactory)
+    {
+        parent::__construct();
+        $this->resetPasswordControlFactory = $resetPasswordControlFactory;
+    }
 
     /**
      * Rendering
@@ -25,7 +33,7 @@ final class ResetPasswordPresenter extends BasePresenter
      * @return Control
      */
     public function createComponentReset() : Control {
-        return new ResetPasswordControl($this->reset);
+        return $this->resetPasswordControlFactory->create();
     }
 
 }
