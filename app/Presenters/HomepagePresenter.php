@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 namespace App\Presenters;
+use DirSync\DirSync;
 use Nette\Application\UI\Control;
+use Tracy\Debugger;
 use WelcomeControl;
 
 final class HomepagePresenter extends BasePresenter
@@ -13,7 +15,6 @@ final class HomepagePresenter extends BasePresenter
      */
 	public function renderDefault(): void
 	{
-		//
 	}
 
     /**
