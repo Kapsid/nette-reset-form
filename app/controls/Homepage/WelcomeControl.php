@@ -20,10 +20,10 @@ class WelcomeControl extends Control {
 
         //
         $dirSync = new DirSync();
-        $dirSync->setRootDir(__DIR__);
+        $dirSync->setRootDir(__DIR__.'/example');
         $dirSync->fromFile(__DIR__.'/test.json');
+        $dirSync->setJsonInput();
         $dirSync->sync();
-        Debugger::barDump($dirSync);
 
         $this->template->render();
     }
